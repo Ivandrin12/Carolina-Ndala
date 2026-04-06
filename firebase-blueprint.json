@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "Post": {
+      "title": "Blog Post",
+      "description": "A blog post published on the site.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the post." },
+        "content": { "type": "string", "description": "The full content of the post in markdown." },
+        "excerpt": { "type": "string", "description": "A short summary of the post." },
+        "category": { "type": "string", "description": "The category of the post." },
+        "image": { "type": "string", "description": "The URL of the cover image." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the post was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the post was last updated." },
+        "status": { "type": "string", "enum": ["draft", "published"], "description": "The publication status." },
+        "authorId": { "type": "string", "description": "The UID of the author." }
+      },
+      "required": ["title", "content", "category", "status", "authorId"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A category for blog posts.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the category." },
+        "slug": { "type": "string", "description": "The URL-friendly slug." }
+      },
+      "required": ["name", "slug"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a blog post.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string", "description": "The ID of the post." },
+        "authorName": { "type": "string", "description": "The name of the commenter." },
+        "authorEmail": { "type": "string", "description": "The email of the commenter." },
+        "content": { "type": "string", "description": "The comment text." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the comment was posted." },
+        "status": { "type": "string", "enum": ["pending", "approved"], "description": "The moderation status." }
+      },
+      "required": ["postId", "authorName", "content", "status"]
+    },
+    "Settings": {
+      "title": "Site Settings",
+      "description": "Global settings for the blog.",
+      "type": "object",
+      "properties": {
+        "siteName": { "type": "string" },
+        "siteDescription": { "type": "string" },
+        "heroTitle": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "aboutText": { "type": "string" },
+        "aboutImage": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "contactSocials": { "type": "object" }
+      }
+    }
+  },
+  "firestore": {
+    "/posts/{postId}": { "schema": "Post", "description": "Collection of blog posts." },
+    "/categories/{categoryId}": { "schema": "Category", "description": "Collection of post categories." },
+    "/comments/{commentId}": { "schema": "Comment", "description": "Collection of comments." },
+    "/settings/global": { "schema": "Settings", "description": "Global site configuration." }
+  }
+}
